@@ -1,0 +1,20 @@
+body {
+    background-color: darkgray;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    border-radius: 20px;
+    border-bottom: 1px solid gray;
+}
+li:last-child {
+    border-bottom: none;
+}
+
+.underline-red {
+    text-decoration: underline red;
+}
