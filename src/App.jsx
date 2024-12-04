@@ -39,16 +39,6 @@ function App() {
             return;
         }
 
-        // Check if the text doesn't already exist
-        let alreadyExist = false;
-        articles.map((element) => {
-            element.title === formFields.title && (alreadyExist = true);
-        });
-        if (alreadyExist) {
-            setWarningText("\nQuesto titolo esiste già");
-            return;
-        }
-
         // Check if an element is being edited
         if (isEditing !== undefined) {
             const newArticles = [...articles];
@@ -74,6 +64,16 @@ function App() {
             setArticles(newArticles);
             setIsEditing(undefined);
             setWarningText("");
+            return;
+        }
+
+        // Check if the text doesn't already exist
+        let alreadyExist = false;
+        articles.map((element) => {
+            element.title === formFields.title && (alreadyExist = true);
+        });
+        if (alreadyExist) {
+            setWarningText("\nQuesto titolo esiste già");
             return;
         }
 
