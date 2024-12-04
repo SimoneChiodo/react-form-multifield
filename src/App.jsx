@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Components
 import Button from "./components/Button";
@@ -11,6 +11,9 @@ function App() {
 
     // Articles Array
     const [articles, setArticles] = useState([]);
+    useEffect(() => {
+        console.log("eseguita");
+    }, [articles]);
 
     // Form Data
     const [formFields, setFormFields] = useState({
