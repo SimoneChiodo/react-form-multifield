@@ -17,6 +17,10 @@ function App() {
         title: "",
         author: "",
         status: "",
+        image: "",
+        description: "",
+        genre: "",
+        publish: false,
     });
 
     // Warning text placed at the top of the page
@@ -59,7 +63,11 @@ function App() {
                 id: newArticles[indexToChange].id,
                 title: formFields.title,
                 author: formFields.author,
+                genre: formFields.genre,
                 status: formFields.status,
+                description: formFields.description,
+                image: formFields.image,
+                publish: formFields.publish,
                 isBeingEdited: false,
             };
 
@@ -75,7 +83,11 @@ function App() {
             id: getLastId(articles),
             title: formFields.title,
             author: formFields.author,
+            genre: formFields.genre,
             status: formFields.status,
+            description: formFields.description,
+            image: formFields.image,
+            publish: formFields.publish,
             isBeingEdited: false,
         });
         setArticles(newArticles);
@@ -117,7 +129,7 @@ function App() {
                     {/* FORM */}
                     <form onSubmit={handleFormSubmit} className="row g-3">
                         {/* Title Input */}
-                        <div className="col-12">
+                        <div className="col-6">
                             <label htmlFor="inputTitle" className="form-label">
                                 Titolo articolo:
                             </label>
@@ -130,9 +142,8 @@ function App() {
                                 name="title"
                             />
                         </div>
-
                         {/* Author Input */}
-                        <div className="col-12">
+                        <div className="col-6">
                             <label htmlFor="inputAuthor" className="form-label">
                                 Autore articolo:
                             </label>
@@ -145,20 +156,99 @@ function App() {
                                 name="author"
                             />
                         </div>
+                        {/* Genre Input */}
+                        <div className="col-6">
+                            <label htmlFor="inputGenre" className="form-label">
+                                Genere articolo:
+                            </label>
 
+                            <select
+                                onChange={handleFormChange}
+                                className="form-select"
+                                id="inputGenre"
+                                name="genre"
+                                defaultValue=""
+                            >
+                                <option value="" disabled>
+                                    Scegliere...
+                                </option>
+                                <option value="Genere 1">Genere 1</option>
+                                <option value="Genere 2">Genere 2</option>
+                                <option value="Genere 3">Genere 3</option>
+                            </select>
+                        </div>
                         {/* Status Input */}
-                        <div className="col-12">
+                        <div className="col-6">
                             <label htmlFor="inputStatus" className="form-label">
                                 Stato articolo:
+                            </label>
+
+                            <select
+                                onChange={handleFormChange}
+                                className="form-select"
+                                id="inputStatus"
+                                name="status"
+                                defaultValue=""
+                            >
+                                <option value="" disabled>
+                                    Scegliere...
+                                </option>
+                                <option value="Bozza">Bozza</option>
+                                <option value="Terminato">Terminato</option>
+                            </select>
+                        </div>
+                        {/* Description Input */}
+                        <div className="col-12">
+                            <label
+                                htmlFor="inputDescription"
+                                className="form-label"
+                            >
+                                Descrizione articolo:
+                            </label>
+
+                            <textarea
+                                onChange={handleFormChange}
+                                className="form-control"
+                                id="inputDescription"
+                                name="description"
+                            ></textarea>
+                        </div>
+                        {/* Image Input */}
+                        <div className="col-12">
+                            <label htmlFor="inputImage" className="form-label">
+                                Immagine articolo (url):
                             </label>
 
                             <input
                                 type="text"
                                 onChange={handleFormChange}
                                 className="form-control"
-                                id="inputStatus"
-                                name="status"
+                                id="inputImage"
+                                name="image"
                             />
+                        </div>
+                        {/* Publish Input */}
+                        <div className="col-12">
+                            <label
+                                htmlFor="inputPublish"
+                                className="form-label"
+                            >
+                                Pubblicare l'articolo?
+                            </label>
+
+                            <select
+                                onChange={handleFormChange}
+                                className="form-select"
+                                id="inputPublish"
+                                name="publish"
+                                defaultValue=""
+                            >
+                                <option value="" disabled>
+                                    Scegliere...
+                                </option>
+                                <option value={true}>Sì</option>
+                                <option value={false}>No</option>
+                            </select>
                         </div>
 
                         {/* Submit Button */}
@@ -177,26 +267,48 @@ function App() {
                                 <li
                                     key={article.id}
                                     className={
-                                        "border d-flex justify-content-between align-items-center py-2 px-3 mb-2 " +
+                                        "border d-flex justify-content-between py-2 px-3 mb-2 " +
                                         (article.isBeingEdited === true &&
                                             "bg-secondary")
                                     }
                                 >
-                                    {/* Article Details */}
+                                    {/* Article Image */}
                                     <div>
+                                        <img
+                                            className="rounded-4"
+                                            src={article.image}
+                                            alt="image not found"
+                                        />
+                                    </div>
+
+                                    {/* Article Details */}
+                                    <div className="flex-grow-1 mx-2 py-2">
                                         <p className="m-0 mb-1">
                                             <b>{"Titolo:"}</b> {article.title}
                                         </p>
                                         <p className="m-0 mb-1">
                                             <b>{"Autore:"}</b> {article.author}
                                         </p>
+                                        <p className="m-0 mb-1">
+                                            <b>{"Genere:"}</b> {article.genre}
+                                        </p>
                                         <p className="m-0">
                                             <b>{"Stato:"}</b> {article.status}
+                                        </p>
+                                        <p className="m-0 mb-1">
+                                            <b>{"Descrizione:"}</b>{" "}
+                                            {article.description}
+                                        </p>
+                                        <p className="m-0 mb-1">
+                                            <b>{"Pubblicato:"}</b>{" "}
+                                            {article.publish === true
+                                                ? "Sì"
+                                                : "No"}
                                         </p>
                                     </div>
 
                                     {/* Utility Buttons */}
-                                    <div>
+                                    <div className="d-flex align-items-center">
                                         {/* Pulsante Modifica */}
                                         <Button
                                             key={"mod-" + article.id}
