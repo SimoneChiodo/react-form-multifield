@@ -13,9 +13,11 @@ function App() {
     const [articles, setArticles] = useState([]);
 
     // Form Data
-    const [titleForm, setTitleForm] = useState("");
-    const [authorForm, setAuthorForm] = useState("");
-    const [statusForm, setStatusForm] = useState("");
+    const [formFields, setFormFields] = useState({
+        title: "",
+        author: "",
+        status: "",
+    });
 
     // Warning text placed at the top of the page
     const [warningText, setWarningText] = useState("");
@@ -28,7 +30,7 @@ function App() {
         e.preventDefault();
 
         // Check if input is not empty
-        if (titleForm === "" || authorForm === "" || statusForm === "") {
+        if (Object.values(formFields).some((data) => data === "")) {
             setWarningText("\nRiempire tutte le caselle!");
             return;
         }
@@ -36,7 +38,7 @@ function App() {
         // Check if the text doesn't already exist
         let alreadyExist = false;
         articles.map((element) => {
-            element.title === titleForm && (alreadyExist = true);
+            element.title === formFields.title && (alreadyExist = true);
         });
         if (alreadyExist) {
             setWarningText("\nQuesto titolo esiste già");
@@ -55,9 +57,9 @@ function App() {
             // change the index
             newArticles[indexToChange] = {
                 id: newArticles[indexToChange].id,
-                title: titleForm,
-                author: authorForm,
-                status: statusForm,
+                title: formFields.title,
+                author: formFields.author,
+                status: formFields.status,
                 isBeingEdited: false,
             };
 
@@ -71,12 +73,18 @@ function App() {
         const newArticles = [...articles];
         newArticles.push({
             id: getLastId(articles),
-            title: titleForm,
-            author: authorForm,
-            status: statusForm,
+            title: formFields.title,
+            author: formFields.author,
+            status: formFields.status,
             isBeingEdited: false,
         });
         setArticles(newArticles);
+    }
+
+    function handleFormChange(e) {
+        const newFormData = { ...formFields, [e.target.name]: e.target.value };
+
+        setFormFields(newFormData);
     }
 
     // Get the Last ID of an Array
@@ -116,9 +124,10 @@ function App() {
 
                             <input
                                 type="text"
-                                onChange={(e) => setTitleForm(e.target.value)}
+                                onChange={handleFormChange}
                                 className="form-control"
                                 id="inputTitle"
+                                name="title"
                             />
                         </div>
 
@@ -130,9 +139,10 @@ function App() {
 
                             <input
                                 type="text"
-                                onChange={(e) => setAuthorForm(e.target.value)}
+                                onChange={handleFormChange}
                                 className="form-control"
                                 id="inputAuthor"
+                                name="author"
                             />
                         </div>
 
@@ -144,9 +154,10 @@ function App() {
 
                             <input
                                 type="text"
-                                onChange={(e) => setStatusForm(e.target.value)}
+                                onChange={handleFormChange}
                                 className="form-control"
                                 id="inputStatus"
+                                name="status"
                             />
                         </div>
 
