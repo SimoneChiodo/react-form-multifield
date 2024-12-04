@@ -7,11 +7,14 @@ ul {
     padding: 0;
 }
 
-li {
+ul#tagContainer li {
+    padding-right: 2rem;
+}
+ul#articleContainer li {
     border-radius: 20px;
     border-bottom: 1px solid gray;
 }
-li:last-child {
+ul#articleContainer li:last-child {
     border-bottom: none;
 }
 

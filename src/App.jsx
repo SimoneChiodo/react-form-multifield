@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 // Components
 import Button from "./components/Button";
+import Pill from "./components/Pill";
 
 // Custom CSS
 import "./assets/App.css";
@@ -23,8 +24,12 @@ function App() {
         image: "",
         description: "",
         genre: "",
+        tags: [],
         publish: false,
     });
+
+    // Tags Array
+    const tags = ["Tag 1", "Tag 2", "Tag 3"];
 
     // Warning text placed at the top of the page
     const [warningText, setWarningText] = useState("");
@@ -61,6 +66,7 @@ function App() {
                 description: formFields.description,
                 image: formFields.image,
                 publish: formFields.publish,
+                tags: formFields.tags,
                 isBeingEdited: false,
             };
 
@@ -91,15 +97,25 @@ function App() {
             description: formFields.description,
             image: formFields.image,
             publish: formFields.publish,
+            tags: formFields.tags,
             isBeingEdited: false,
         });
         setArticles(newArticles);
     }
 
     function handleFormChange(e) {
-        const newFormData = { ...formFields, [e.target.name]: e.target.value };
+        const { name, value, checked } = e.target;
 
-        setFormFields(newFormData);
+        if (name === "tags") {
+            const newTags = checked
+                ? [...formFields.tags, value]
+                : formFields.tags.filter((tag) => tag !== value);
+            setFormFields({ ...formFields, tags: newTags });
+        } else if (name === "publish") {
+            setFormFields({ ...formFields, publish: checked });
+        } else {
+            setFormFields({ ...formFields, [name]: value });
+        }
     }
 
     // Get the Last ID of an Array
@@ -228,30 +244,66 @@ function App() {
                                 className="form-control"
                                 id="inputImage"
                                 name="image"
+                                defaultValue="https://picsum.photos/200"
                             />
                         </div>
                         {/* Publish Input */}
                         <div className="col-12">
-                            <label
+                            {/* <label
                                 htmlFor="inputPublish"
                                 className="form-label"
                             >
                                 Pubblicare l'articolo?
+                            </label> */}
+
+                            <div className="form-check">
+                                <input
+                                    type="checkbox"
+                                    id="inputPublish"
+                                    className="form-check-input"
+                                    onChange={handleFormChange}
+                                    checked={formFields.publish}
+                                    name="publish"
+                                />
+                                <label
+                                    className="form-check-label"
+                                    htmlFor="inputPublish"
+                                >
+                                    Articolo già pubblicato
+                                </label>
+                            </div>
+                        </div>
+                        {/* Empty Space */}
+                        <div className="col-12"></div>
+                        {/* Tags Input */}
+                        <div className="col-12">
+                            <label htmlFor="inputTags" className="form-label">
+                                Vuoi inserire dei tag?
                             </label>
 
-                            <select
-                                onChange={handleFormChange}
-                                className="form-select"
-                                id="inputPublish"
-                                name="publish"
-                                defaultValue=""
-                            >
-                                <option value="" disabled>
-                                    Scegliere...
-                                </option>
-                                <option value={true}>Sì</option>
-                                <option value={false}>No</option>
-                            </select>
+                            <ul id="tagContainer" className="d-flex">
+                                {tags.map((tag) => (
+                                    <li key={"tag-" + tag}>
+                                        <input
+                                            type="checkbox"
+                                            id={"inputTags-" + tag}
+                                            className="form-check-input me-1"
+                                            onChange={handleFormChange}
+                                            checked={formFields.tags.includes(
+                                                tag
+                                            )}
+                                            value={tag}
+                                            name="tags"
+                                        />
+                                        <label
+                                            className="form-check-label"
+                                            htmlFor={"inputTags-" + tag}
+                                        >
+                                            {tag}
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
 
                         {/* Submit Button */}
@@ -263,7 +315,7 @@ function App() {
                     </form>
 
                     {/* ARTICLES LIST */}
-                    <ul className="mt-5">
+                    <ul id="articleContainer" className="mt-5">
                         {articles?.length ? (
                             // Print the Array
                             articles.map((article) => (
@@ -307,6 +359,14 @@ function App() {
                                             {article.publish === true
                                                 ? "Sì"
                                                 : "No"}
+                                        </p>
+                                        <p className="m-0 mb-1">
+                                            {article.tags.map((tag) => (
+                                                <Pill
+                                                    key={"pill-" + tag}
+                                                    text={tag}
+                                                />
+                                            ))}
                                         </p>
                                     </div>
 
