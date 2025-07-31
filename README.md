@@ -1,8 +1,17 @@
-# React + Vite
+# Esercizio React: Form per Creazione Articoli
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descrizione
 
-Currently, two official plugins are available:
+Estensione dell’esercizio precedente che prevede l’aggiunta di un form completo per la creazione di articoli. Il form include i seguenti campi:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Immagine
+- Contenuto
+- Categoria (tramite `select`)
+- Stato (checkbox per decidere se pubblicare o meno l’articolo)
+
+Tutti i dati del form vengono gestiti tramite un singolo oggetto di stato.
+
+## Bonus
+
+- Implementazione di uno `useEffect` che mostra un alert ogni volta che l’utente seleziona la checkbox di pubblicazione.
+- Aggiunta di un sistema per la selezione dei tag, tramite una lista di checkbox che permette l’associazione di uno o più tag all’articolo.
